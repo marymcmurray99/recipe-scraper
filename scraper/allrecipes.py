@@ -9,16 +9,17 @@ class Allrecipes():
         page = requests.get(self.url)
         soup = BeautifulSoup(page.content, "html.parser")
         results = soup.find(class_="ingredients-section")
-        ingredients = results.find_all("div", class_="checkbox-list")
-        print(ingredients)
+        ingredients = results.find_all(class_="checkbox-list")
+        print(results)
         return self.parse(ingredients)
 
     def parse(self, ingredients):
-        parsed = {}
+        parsed = []
         for i in ingredients:
             curr = {}
-            curr['quantity'] = i.find('data-init-quantity')
-            curr['unit'] = i.find('data-unit')
-            curr ['ingredient'] = i.find('data-ingredient')
-            parsed.add(curr)
+            label = i.find(class_="checkbox-list-input")
+            curr['quantity'] = label["data-init-quantity"]
+            curr['unit'] = label["data-unit"]
+            curr ['ingredient'] = label["data-ingredient"]
+            parsed.append(curr)
         return parsed
