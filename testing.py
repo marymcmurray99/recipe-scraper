@@ -1,7 +1,3 @@
-from scraper.allrecipes import Allrecipes
+import converter.scraper.allrecipes as a
 
-a = Allrecipes("https://www.allrecipes.com/recipe/10813/best-chocolate-chip-cookies/")
-
-x = a.scrape()
-
-print(x)
+a.scrape_recipe("https://www.allrecipes.com/recipe/10813/best-chocolate-chip-cookies/",)
