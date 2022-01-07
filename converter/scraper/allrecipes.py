@@ -5,7 +5,7 @@ from converter.ingredient import Ingredient
 from converter.recipe import Recipe
 
 # Scrapes the webpage for the recipe ingredients 
- # RETURNS: a recipe
+# RETURNS: a recipe
 def scrape_recipe(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
