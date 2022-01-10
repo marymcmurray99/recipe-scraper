@@ -5,17 +5,21 @@ class Ingredient:
         self.type = ingredient 
         self.grams = None
         self.ounces = None
-        self.setGrams()
-        self.setOunces()
 
-    def setGrams(self):
+    def calculateGrams(self):
         if self.grams:
             return
         if self.ounces:
             self.grams = self.ounces * 28.3495
-        self.grams = 0
+            return
+        #check database
+        
     
-    def setOunces(self): 
-        self.ounces = 0
-
+    def calculateOunces(self): 
+        if self.ounces:
+            return
+        if self.grams:
+            self.ounces = self.grams / 28.3495
+            return
+        
     
