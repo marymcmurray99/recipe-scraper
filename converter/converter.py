@@ -9,8 +9,13 @@ websites = {
 }
 
 def convert(self, url: str, unit: Unit):
+    # check if URL is in database 
+
     # get the recipe
     recipe = get_recipe(url)
+
+
+
 
 def get_recipe(url):
     #### check website and use right file 
@@ -18,7 +23,6 @@ def get_recipe(url):
     for key, value in websites.items():
         if key in url:
             scraper = importlib.import_module("scraper." + value)
-
 
     #recipe is a Recipe from converter.recipe
     if not scraper:

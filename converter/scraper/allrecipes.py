@@ -12,7 +12,7 @@ def scrape_recipe(url):
     # get directions and title 
     title = soup.find(class_="headline heading-content elementFont__display").text.strip()
     instructions = parse_instructions(soup.find_all(class_="subcontainer instructions-section-item"))
-    recipe = Recipe(title, instructions)
+    recipe = Recipe(url, title, instructions)
     # get ingredients
     parse_ingredients(recipe, soup)
     return recipe
