@@ -22,8 +22,11 @@ class Recipe:
     def get_instructions_json(self): 
         return json.dumps(self.instructions)
     
-    def get_ingredients(self):
-        return self.ingredients.copy()
+    def get_ingredients_json(self):
+        json_ingredients = []
+        for i in self.ingredients:
+            json_ingredients.append(i.to_json())
+        return json.dumps(json_ingredients)
 
 
     
