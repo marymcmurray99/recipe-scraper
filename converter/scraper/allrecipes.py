@@ -2,7 +2,6 @@ from converter.recipe import Recipe
 import requests
 from bs4 import BeautifulSoup
 from converter.ingredient import Ingredient
-from converter.recipe import Recipe
 
 # Scrapes the webpage for the recipe ingredients 
 # RETURNS: a recipe

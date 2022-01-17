@@ -1,6 +1,8 @@
 import sqlite3
 from sqlite3 import Error
 import json
+import re
+
 
 # Database operations for recipe_converter database
 
@@ -62,11 +64,12 @@ class DBOperations:
             print("An error occurred:", e.args[0])
     
     def get_conversion(self, ingredient :str):
+        ingredient = re.sub(r'[^A-Za-z0-9 ]+', '', ingredient)
         split = ingredient.split()
         rows = []
         try:
             for word in enumerate(split):
-                curr = self.cursor.execute('SELECT * FROM conversions WHERE UPPER(ingredient) LIKE UPPER("%{ingredient}%")'.format(ingredient = ingredient))
+                curr = self.cursor.execute('SELECT * FROM conversions WHERE UPPER(ingredient) LIKE UPPER("%{ingredient}%")'.format(ingredient = word[1]))
                 rows.extend(curr)
         except sqlite3.Error as e:
             print("An error occurred:", e.args[0])
@@ -83,7 +86,9 @@ class DBOperations:
                 num_matches = curr_matches
                 best_match = row
         
-        return {'quantity': best_match[1], 'unit': best_match[2], 'ingredient': best_match[0], 'grams': best_match[4], 'ounces': best_match[3]}
+        if best_match:
+            return {'quantity': best_match[1], 'unit': best_match[2], 'ingredient': best_match[0], 'grams': best_match[4], 'ounces': best_match[3]}
+        return None
 
                 
 

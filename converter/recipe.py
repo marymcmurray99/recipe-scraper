@@ -1,6 +1,8 @@
-from os import listdir
+from typing import List
 from converter.ingredient import Ingredient
 import json
+from database.operations import DBOperations
+
 
 def generate_recipe_from_dictionary(recipe :dict): 
     ingredients = []
@@ -9,7 +11,7 @@ def generate_recipe_from_dictionary(recipe :dict):
     return Recipe(recipe['url'], recipe['title'], recipe['instructions'], ingredients)
 
 class Recipe:
-    def __init__(self, url :str, title: str, instructions, ingredients=[]): ## list string? instructions
+    def __init__(self, url :str, title: str, instructions: List[str], ingredients: List[Ingredient] = []): ## list string? instructions
         self.url = url
         self.title = title
         self.instructions = instructions
@@ -31,10 +33,26 @@ class Recipe:
         json_ingredients = []
         for i in self.ingredients:
             json_ingredients.append(i.to_json())
-        return json.dumps(json_ingredients)
+        return json.dumps(json_ingredients, indent=2)
     
     def get_dictionary_version_with_json(self):
         return {'url': self.get_url(), 'title': self.get_title(), 'instructions': self.get_instructions_json(), 'ingredients': self.get_ingredients_json()}
+    
+    def calculate_grams(self): 
+        for i in self.ingredients:
+            i.calculate_grams()
+        self.save_recipe()
+        
+    
+    def calculate_ounces(self): 
+        for i in self.ingredients:
+            i.calculate_ounces()
+        self.save_recipe()
+    
+    def save_recipe(self):
+        dbop = DBOperations()
+        dbop.add_or_update_recipe(self.get_dictionary_version_with_json())
+
 
 
 
