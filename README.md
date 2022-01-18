@@ -1,4 +1,4 @@
-# recipescraper
+# Recipe Scraper/Library/Converter
 
 # About this project
 This project is the backend of a recipe scraper with the following functionality
