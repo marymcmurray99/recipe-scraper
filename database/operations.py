@@ -25,14 +25,13 @@ class DBOperations:
         conn = None
         try:
             conn = sqlite3.connect("database/recipe_converter.db")
-            print("Connection to SQLite DB successful")
+            #print("Connection to SQLite DB successful")
         except Error as e:
             print(f"The error '{e}' occurred")
         return conn
 
     def add_or_update_recipe(self, recipe): # recipe should be of format Recipe.get_dictionary_version_with_json()
         query = 'INSERT OR REPLACE INTO recipes (url, title, instructions, ingredients) VALUES (:url, :title, :instructions, :ingredients)'
-        print(query)
         try:
             self.cursor.execute(query, {"url" : recipe['url'], "title" : recipe['title'], "instructions" : recipe['instructions'], "ingredients" : recipe['ingredients']})
             self.connection.commit()
@@ -85,7 +84,6 @@ class DBOperations:
             if curr_matches > num_matches:
                 num_matches = curr_matches
                 best_match = row
-        
         if best_match:
             return {'quantity': best_match[1], 'unit': best_match[2], 'ingredient': best_match[0], 'grams': best_match[4], 'ounces': best_match[3]}
         return None

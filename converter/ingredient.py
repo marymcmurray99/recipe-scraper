@@ -38,11 +38,13 @@ class Ingredient:
         if self.grams:
             return
         if self.ounces:
-            self.grams = self.ounces * 28.3495
+            self.grams = self.get_ounces() * 28.3495
             return
         #check database
         dbop = DBOperations()
         conversion = generate_ingredient_from_dict(dbop.get_conversion(self.ingredient))
+        if self.get_unit() == '':
+            self.grams = (conversion.get_grams() * self.get_quantity()) / conversion.get_quantity()
         if conversion.get_unit() == self.get_unit():
             self.grams = (conversion.get_grams() * self.get_quantity()) / conversion.get_quantity()
             return 
@@ -64,11 +66,13 @@ class Ingredient:
         if self.ounces:
             return
         if self.grams:
-            self.ounces = self.grams / 28.3495
+            self.ounces = self.get_grams() / 28.3495
             return
         #check database
         dbop = DBOperations()
         conversion = generate_ingredient_from_dict(dbop.get_conversion(self.ingredient))
+        if self.get_unit() == '':
+            self.ounces = (conversion.get_ounces() * self.get_quantity()) / conversion.get_quantity()
         if conversion.get_unit() == self.get_unit():
             self.ounces = (conversion.get_ounces() * self.get_quantity()) / conversion.get_quantity()
             return 
